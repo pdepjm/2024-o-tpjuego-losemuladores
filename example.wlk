@@ -9,31 +9,35 @@ object juegoDeAutos {
     game.height(9)
     game.boardGround("freeway.png")
     game.addVisualCharacter(auto)
+    game.addVisualCharacter(obstaculo)
+
     keyboard.left().onPressDo({ auto.moverIzquierda() })
     keyboard.right().onPressDo({ auto.moverDerecha() })
+
+    game.onTick(1000, "moverse", {obstaculo.moverseHaciaAbajo()})
   }
 }
 
 object auto {
   var nafta = 100
-  var posicion = game.at(5, 4)
-  const property image = "policecar.png"
+  var position = game.at(5, 4)
+  method image() = "policecar.png"
   
   method perderNafta() {
     nafta -= 2
   }
 
-  method position() = posicion
+  method position() = position
 
   method moverIzquierda() {
-    if (posicion.x() > 0) {
-      posicion = game.at(posicion.x() - 1, posicion.y())
+    if (position.x() > 0) {
+      position = game.at(position.x() - 1, position.y())
     }
   }
 
   method moverDerecha() {
-    if (posicion.x() < game.width() - 1) {
-      posicion = game.at(posicion.x() + 1, posicion.y())
+    if (position.x() < game.width() - 1) {
+      position = game.at(position.x() + 1, position.y())
     }
   }
 
@@ -45,29 +49,24 @@ object auto {
     game.stop()
   }
 }
- /*
+
+object obstaculo {
+  var position = game.at(1.randomUpTo(game.width()), 4)
+  method image() = "cono.png"
+  /*method aparecer() {
+    posicion = game.at(0.randomUpTo(9),0)
+  }*/
   method position() = position
 
-  method position(newPosition) {
-    position = newPosition
+  method moverseHaciaAbajo () {
+     if (position.y() < game.height() - 1) {
+      position = game.at(position.x(), position.y() + 1)
+    } else {
+      // Si el obstáculo llega al final del tablero, reaparece en la parte superior con nueva posición
+      position = game.at(0.randomUpTo(game.width() - 1), 0)
+    }
   }
-
-  method mover(direccion){
-    const nuevaPosicion = direccion.siguiente(self.position())
-    if (nuevaPosicion.x() >= 0 && nuevaPosicion.x() < game.width())
-		self.position(nuevaPosicion)
-  }
-*/
-/*
-object izquierda { 
-	method siguiente(position) = position.left(1) 
 }
-
-object derecha { 
-	method siguiente(position) = position.right(1) 
-}
-
-*/
 //TODO : Implementar la clase obstaculo
 //Cómo hacer para moverse más rápido?
 //Movimientos con polimorfismo

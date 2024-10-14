@@ -3,7 +3,6 @@ import example.*
 
 
 program juego {
-
   juegoDeAutos.iniciar()
   game.start()
 }
