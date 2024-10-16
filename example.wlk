@@ -1,42 +1,56 @@
 import wollok.game.*
 
-// Juego de autos con mayor velocidad de movimiento
-
 object juegoDeAutos {
 
   method iniciar() {
     game.width(9)
-    game.height(10)
+    game.height(12)
     game.cellSize(50)
-    game.boardGround("carretera.png")
+    game.boardGround("freeway.png")
     game.addVisualCharacter(auto)
-    game.addVisual(obstaculo)
     game.addVisual(contador)
     game.addVisual(contadorNafta)
 
     keyboard.left().onPressDo({ auto.moverIzquierda() })
     keyboard.right().onPressDo({ auto.moverDerecha() })
 
-    game.onTick(5000, "moverse", {obstaculo.moverseHaciaAbajo()
-      contador.aumentarPuntos()
-      contadorNafta.perderNafta()
-      if (contadorNafta.nafta <= 0) game.stop()
+    game.schedule(300, {manejadorAutos.agregarAutosFilaSuperior()
+    manejadorAutos.agregarAutosFilaSuperior()
+    manejadorAutos.agregarAutosFilaSuperior()
     })
+
+    game.schedule(1200, {manejadorAutos.agregarAutosFilaSuperior()
+    manejadorAutos.agregarAutosFilaSuperior()
+    manejadorAutos.agregarAutosFilaSuperior()
+    })
+
+    game.schedule(2100, {manejadorAutos.agregarAutosFilaSuperior()
+    manejadorAutos.agregarAutosFilaSuperior()
+    manejadorAutos.agregarAutosFilaSuperior()
+    })
+
+    game.schedule(3000, {manejadorAutos.agregarAutosFilaSuperior()
+    manejadorAutos.agregarAutosFilaSuperior()
+    manejadorAutos.agregarAutosFilaSuperior()
+    })
+
+    game.schedule(3300, {game.addVisual(gasolina)})
+
+    game.schedule(1500, {manejadorObstaculos.agregarObstaculos()
+    manejadorObstaculos.agregarObstaculos()
+    })
+
+    game.schedule(3300, {manejadorObstaculos.agregarObstaculos()
+    manejadorObstaculos.agregarObstaculos()
+    })
+    
   }
 }
 
 object auto {
-  var nafta = 100
-  var position = game.at(1, 2)
-
-  method nafta() = nafta
-
   method image() = "porsche.png"
-  
-  method perderNafta() {
-    nafta = nafta - 2
-  }
 
+  var position = game.at(1, 2)
   method position() = position
 
   method moverIzquierda() {
@@ -44,7 +58,6 @@ object auto {
       position = game.at(position.x() - 1, position.y())
     }
   }
-  
 
   method moverDerecha() {
     if (position.x() < game.width() - 1) {
@@ -52,37 +65,54 @@ object auto {
     }
   }
 
-  method chocarConObstaculo() {
-    nafta -= 10
-  }
+  method chocarConObstaculo() {}
 
   method chocarConAutoEnemigo() {
     game.stop()
   }
 }
 
-object obstaculo {
+object gasolina {
+  var position = game.at(0.randomUpTo(game.width() - 1), 9)
+  method image() = "gasolina.png"
+
+  method position() = position
+  method position(newPosition) {
+    position = newPosition
+  }
+  
+  method moverseHaciaAbajo() {
+    if (position.y() > 0) {
+      position = game.at(position.x(), position.y() - 1)
+    } else {
+      position = game.at(0.randomUpTo(game.width() - 1), game.height() - 1)
+    }
+  }
+
+}
+
+class Obstaculo {
   // Posición inicial aleatoria en la fila superior del tablero
   var position = game.at(0.randomUpTo(game.width() - 1), 9)
-  method image() = "policecar.png"
+  method image() = "cono.png"
   
   method position() = position
   method position(newPosition) {
     position = newPosition
   }
 
-  method moverseHaciaAbajo () {
+  method moverseHaciaAbajo() {
     if (position.y() > 0) {
       position = game.at(position.x(), position.y() - 1)
-    }  else {
-      // Si el obstáculo llega al final del tablero, reaparece en la parte superior con nueva posición
-      position = game.at(0.randomUpTo(game.width() - 1), 9)
+    } else {
+      position = game.at(0.randomUpTo(game.width() - 1), game.height() - 1)
     }
   }
+
 }
 
 class AutoEnemigo {
-  var position
+  var position = game.at(0.randomUpTo(game.width() - 1), game.height() - 1)
   method image() = "policecar.png"
   
   method position() = position
@@ -91,10 +121,10 @@ class AutoEnemigo {
   }
 
   method moverseHaciaAbajo() {
-    if (position.y() < game.height() - 1) {
+    if (position.y() > 0) {
       position = game.at(position.x(), position.y() - 1)
     } else {
-      position = game.at(0.randomUpTo(game.width() - 1), 0)
+      position = game.at(0.randomUpTo(game.width() - 1), game.height() - 1)
     }
   }
 }
@@ -103,7 +133,7 @@ object contador {
   var puntos = 0
   const property celeste = "279df5cc"
 
-  method position () = game.at(7, 9)
+  method position () = game.at(7, 11)
 
   method aumentarPuntos() {
     puntos += 10
@@ -133,4 +163,32 @@ method perderNafta() {
   method text() = "       Nafta: " + nafta
   method textColor() = celeste
   
+}
+
+object manejadorAutos  {
+   const autos = new List()
+
+  method agregarAutosFilaSuperior() {
+    const nuevoAuto = new AutoEnemigo ()
+    autos.add(nuevoAuto)
+    game.addVisual(nuevoAuto)
+  }
+
+  method paraCadaAuto() {
+    autos.forEach{autoEnemigo => autoEnemigo.moverseHaciaAbajo()}
+  }
+}
+
+object manejadorObstaculos  {
+   const obstaculos = new List()
+
+  method agregarObstaculos() {
+    const nuevoObstaculo = new Obstaculo ()
+    obstaculos.add(nuevoObstaculo)
+    game.addVisual(nuevoObstaculo)
+  }
+
+  method paraCadaObstaculo() {
+    obstaculos.forEach{obstaculo => obstaculo.moverseHaciaAbajo()}
+  }
 }

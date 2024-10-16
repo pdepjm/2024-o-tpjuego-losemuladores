@@ -5,4 +5,11 @@ import example.*
 program juego {
   juegoDeAutos.iniciar()
   game.start()
+
+  game.onTick(300, "moverAutos", { manejadorAutos.paraCadaAuto() })
+  game.onTick(300, "moverGasolina", { gasolina.moverseHaciaAbajo() })
+  game.onTick(300, "moverObstaculos", { manejadorObstaculos.paraCadaObstaculo() })
+  game.onTick(100, "contadores", { contador.aumentarPuntos() })
+  game.onTick(1000, "contadores", { contadorNafta.perderNafta() })
+  game.onTick(1000, "verificarNafta", {if (contadorNafta.nafta <= 0) game.stop()})
 }
