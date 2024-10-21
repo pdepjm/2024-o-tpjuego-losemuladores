@@ -1,9 +1,26 @@
-/*import pepita.*
+/*import example.*
+import handlers.*
 
-describe "group of tests for pepita" {
+describe "group of tests for auto" {
 
-  test "pepita has initial energy" {
-    assert.equals(100, pepita.energy())
+  test "auto has nafta" {
+    assert.equals(100, contadorNafta.nafta)
   }
 
-}*/
+  test "auto pierde nafta " {
+    
+  }
+
+  test "auto choca " {
+
+  }
+
+  test "posicion inicial auto" {
+    auto.position() shouldBe game.at(1, 2)
+    auto.moverDerecha()
+    auto.position() shouldBe game.at(2, 2)
+  }
+  
+}
+
+*/

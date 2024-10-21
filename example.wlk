@@ -1,4 +1,6 @@
 import wollok.game.*
+import handlers.*
+import visuales.*
 
 object juegoDeAutos {
 
@@ -7,50 +9,19 @@ object juegoDeAutos {
     game.height(12)
     game.cellSize(50)
     game.boardGround("freeway.png")
-    game.addVisualCharacter(auto)
-    game.addVisual(contador)
-    game.addVisual(contadorNafta)
+  }
 
+  method configurarTeclado() {
     keyboard.left().onPressDo({ auto.moverIzquierda() })
     keyboard.right().onPressDo({ auto.moverDerecha() })
-
-    game.schedule(300, {manejadorAutos.agregarAutosFilaSuperior()
-    manejadorAutos.agregarAutosFilaSuperior()
-    manejadorAutos.agregarAutosFilaSuperior()
-    })
-
-    game.schedule(1200, {manejadorAutos.agregarAutosFilaSuperior()
-    manejadorAutos.agregarAutosFilaSuperior()
-    manejadorAutos.agregarAutosFilaSuperior()
-    })
-
-    game.schedule(2100, {manejadorAutos.agregarAutosFilaSuperior()
-    manejadorAutos.agregarAutosFilaSuperior()
-    manejadorAutos.agregarAutosFilaSuperior()
-    })
-
-    game.schedule(3000, {manejadorAutos.agregarAutosFilaSuperior()
-    manejadorAutos.agregarAutosFilaSuperior()
-    manejadorAutos.agregarAutosFilaSuperior()
-    })
-
-    game.schedule(3300, {game.addVisual(gasolina)})
-
-    game.schedule(1500, {manejadorObstaculos.agregarObstaculos()
-    manejadorObstaculos.agregarObstaculos()
-    })
-
-    game.schedule(3300, {manejadorObstaculos.agregarObstaculos()
-    manejadorObstaculos.agregarObstaculos()
-    })
-    
   }
 }
 
-object auto {
-  method image() = "porsche.png"
 
+object auto {
   var position = game.at(1, 2)
+ 
+  method image() = "porsche.png"
   method position() = position
 
   method moverIzquierda() {
@@ -65,11 +36,6 @@ object auto {
     }
   }
 
-  method chocarConObstaculo() {}
-
-  method chocarConAutoEnemigo() {
-    game.stop()
-  }
 }
 
 object gasolina {
@@ -89,6 +55,9 @@ object gasolina {
     }
   }
 
+  method chocar() {
+    contadorNafta.agregarNafta(10)
+  }
 }
 
 class Obstaculo {
@@ -109,6 +78,10 @@ class Obstaculo {
     }
   }
 
+  method chocar() {
+    contadorNafta.agregarNafta(-10)
+  }
+
 }
 
 class AutoEnemigo {
@@ -127,68 +100,9 @@ class AutoEnemigo {
       position = game.at(0.randomUpTo(game.width() - 1), game.height() - 1)
     }
   }
-}
 
-object contador {
-  var puntos = 0
-  const property celeste = "279df5cc"
-
-  method position () = game.at(7, 11)
-
-  method aumentarPuntos() {
-    puntos += 10
-  }
-
-  method text() = "    Puntos: " + puntos
-  method textColor() = celeste
-  
-}
-
-object contadorNafta {
-  var nafta = 100
-
-method perderNafta() {
-  if (nafta > 0){
-    nafta = nafta - 2
-    } else {
-      game.stop()
-    }
-
-  }
-
-  const property celeste = "279df5cc"
-
-  method position () = game.at(0, 0)
-
-  method text() = "       Nafta: " + nafta
-  method textColor() = celeste
-  
-}
-
-object manejadorAutos  {
-   const autos = new List()
-
-  method agregarAutosFilaSuperior() {
-    const nuevoAuto = new AutoEnemigo ()
-    autos.add(nuevoAuto)
-    game.addVisual(nuevoAuto)
-  }
-
-  method paraCadaAuto() {
-    autos.forEach{autoEnemigo => autoEnemigo.moverseHaciaAbajo()}
+  method chocar() {
+    game.stop()
   }
 }
 
-object manejadorObstaculos  {
-   const obstaculos = new List()
-
-  method agregarObstaculos() {
-    const nuevoObstaculo = new Obstaculo ()
-    obstaculos.add(nuevoObstaculo)
-    game.addVisual(nuevoObstaculo)
-  }
-
-  method paraCadaObstaculo() {
-    obstaculos.forEach{obstaculo => obstaculo.moverseHaciaAbajo()}
-  }
-}

@@ -1,15 +1,14 @@
 import wollok.game.*
 import example.*
+import handlers.*
+import visuales.*
 
 
 program juego {
   juegoDeAutos.iniciar()
+  cargarVisuales.iniciar()
+  manejadorColisiones.iniciar()
+  juegoDeAutos.configurarTeclado()
   game.start()
 
-  game.onTick(300, "moverAutos", { manejadorAutos.paraCadaAuto() })
-  game.onTick(300, "moverGasolina", { gasolina.moverseHaciaAbajo() })
-  game.onTick(300, "moverObstaculos", { manejadorObstaculos.paraCadaObstaculo() })
-  game.onTick(100, "contadores", { contador.aumentarPuntos() })
-  game.onTick(1000, "contadores", { contadorNafta.perderNafta() })
-  game.onTick(1000, "verificarNafta", {if (contadorNafta.nafta <= 0) game.stop()})
 }
