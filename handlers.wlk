@@ -1,7 +1,7 @@
 import example.*
 
 object contador {
-  var puntos = 0
+  var property puntos = 0
   const property celeste = "279df5cc"
 
   method position () = game.at(7, 11)
@@ -16,19 +16,15 @@ object contador {
 }
 
 object contadorNafta {
-  var nafta = 100
-
-method perderNafta() {
-  if (nafta > 0){
-    nafta = nafta - 2
-    } else {
-      game.stop()
-    }
-
-  }
+  var property nafta = 100
 
   method agregarNafta(cantidad) {
-    nafta = nafta + cantidad
+  if (nafta > 0){
+    nafta = 100.min(nafta + cantidad)
+    } else {
+      cartelFinal.iniciar()
+    }
+
   }
 
   const property celeste = "279df5cc"
@@ -52,6 +48,12 @@ object manejadorAutos  {
   method paraCadaAuto() {
     autos.forEach{autoEnemigo => autoEnemigo.moverseHaciaAbajo()}
   }
+
+  /*
+  method sacarAutos(){
+    autos.forEach{autoEnemigo => game.removeVisual(autoEnemigo)}
+  }
+  */
 }
 
 object manejadorObstaculos  {
@@ -66,6 +68,12 @@ object manejadorObstaculos  {
   method paraCadaObstaculo() {
     obstaculos.forEach{obstaculo => obstaculo.moverseHaciaAbajo()}
   }
+
+  /*
+  method sacarObstaculos(){
+    obstaculos.forEach{obstaculo => game.removeVisual(obstaculo)}
+  }
+  */
 }
 
 object manejadorColisiones {
@@ -73,8 +81,8 @@ object manejadorColisiones {
         game.onTick(300, "moverAutos", { manejadorAutos.paraCadaAuto() })
         game.onTick(300, "moverGasolina", { gasolina.moverseHaciaAbajo() })
         game.onTick(300, "moverObstaculos", { manejadorObstaculos.paraCadaObstaculo() })
-        game.onTick(100, "contadores", { contador.aumentarPuntos() })
-        game.onTick(1000, "contadores", { contadorNafta.perderNafta() })
+        game.onTick(100, "aumentarPuntos", { contador.aumentarPuntos() })
+        game.onTick(1000, "disminuirNafta", { contadorNafta.agregarNafta(-2) })
         game.onCollideDo(auto, {visual => visual.chocar()})
     }
 
@@ -85,21 +93,38 @@ object manejadorColisiones {
     game.sound("explosion.wav").play()
   }
 }
+*/
 object cartelFinal{
-    var position = game.center()
+    var property position = game.origin()
+
     method image() = "gameover.png"
     method text () = "GAME OVER"
     method iniciar(){
         game.addVisual(self)
-        sonidoExplosion.play()
-        game.stop()
+        //sonidoExplosion.play()
+        game.schedule(300, {game.stop()})
     }
 }
+/*
 program soundProgram {
 
   const rain = game.sound("light-rain.mp3")
   rain.shouldLoop(true)
   game.schedule(500, { rain.play()} )
   game.start()
+}
+
+
+object reiniciarJuego{
+  method iniciar() {
+    game.start()
+    game.clear()
+    game.removeVisual(cartelFinal)
+    contadorNafta.nafta(100)
+    contador.puntos(0)
+    manejadorAutos.sacarAutos()
+    manejadorObstaculos.sacarObstaculos()
+    gasolina.restaurarUbicacion()
+  }
 }
 */

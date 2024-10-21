@@ -26,26 +26,21 @@ object auto {
 
   method moverIzquierda() {
     if (position.x() > 0) {
-      position = game.at(position.x() - 1, position.y())
+      position = position.left(1)
     }
   }
 
   method moverDerecha() {
     if (position.x() < game.width() - 1) {
-      position = game.at(position.x() + 1, position.y())
+      position = position.right(1)
     }
   }
 
 }
 
 object gasolina {
-  var position = game.at(0.randomUpTo(game.width() - 1), 9)
+  var property position = game.at(0.randomUpTo(game.width() - 1), 9)
   method image() = "gasolina.png"
-
-  method position() = position
-  method position(newPosition) {
-    position = newPosition
-  }
   
   method moverseHaciaAbajo() {
     if (position.y() > 0) {
@@ -57,6 +52,11 @@ object gasolina {
 
   method chocar() {
     contadorNafta.agregarNafta(10)
+  }
+
+  method restaurarUbicacion() {
+    game.removeVisual(self)
+    position = game.at(0.randomUpTo(game.width() - 1), 9)
   }
 }
 
@@ -72,7 +72,7 @@ class Obstaculo {
 
   method moverseHaciaAbajo() {
     if (position.y() > 0) {
-      position = game.at(position.x(), position.y() - 1)
+      position = position.down(1)
     } else {
       position = game.at(0.randomUpTo(game.width() - 1), game.height() - 1)
     }
@@ -95,14 +95,15 @@ class AutoEnemigo {
 
   method moverseHaciaAbajo() {
     if (position.y() > 0) {
-      position = game.at(position.x(), position.y() - 1)
+      position = position.down(1)
     } else {
       position = game.at(0.randomUpTo(game.width() - 1), game.height() - 1)
     }
   }
 
   method chocar() {
-    game.stop()
+    cartelFinal.iniciar()
+    //game.stop()
   }
 }
 

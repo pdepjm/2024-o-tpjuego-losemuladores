@@ -3,43 +3,33 @@ import wollok.game.*
 import handlers.*
 
 object cargarVisuales {
+    const tiemposAuto = [300, 1200, 2100, 3000]
+    const tiemposObstaculo = [1500, 3300]
+
     method iniciar() {
         game.addVisualCharacter(auto)
         game.addVisual(contador)
         game.addVisual(contadorNafta)
+        game.addVisual(gasolina)        
 
-        game.schedule(300, {manejadorAutos.agregarAutosFilaSuperior()
-        manejadorAutos.agregarAutosFilaSuperior()
-        manejadorAutos.agregarAutosFilaSuperior()
-        manejadorAutos.agregarAutosFilaSuperior()
-        })
-
-        game.schedule(1200, {manejadorAutos.agregarAutosFilaSuperior()
-        manejadorAutos.agregarAutosFilaSuperior()
-        manejadorAutos.agregarAutosFilaSuperior()
-        manejadorAutos.agregarAutosFilaSuperior()
-        })
-
-        game.schedule(2100, {manejadorAutos.agregarAutosFilaSuperior()
-        manejadorAutos.agregarAutosFilaSuperior()
-        manejadorAutos.agregarAutosFilaSuperior()
-        manejadorAutos.agregarAutosFilaSuperior()
-        })
-
-        game.schedule(3000, {manejadorAutos.agregarAutosFilaSuperior()
-        manejadorAutos.agregarAutosFilaSuperior()
-        manejadorAutos.agregarAutosFilaSuperior()
-        manejadorAutos.agregarAutosFilaSuperior()
-        })
-
+        tiemposAuto.forEach({tiempo => scheduleAutos.iniciar(tiempo)})
+        tiemposObstaculo.forEach({tiempo => scheduleObstaculo.iniciar(tiempo)})
         game.schedule(3300, {game.addVisual(gasolina)})
+    }
+}
 
-        game.schedule(1500, {manejadorObstaculos.agregarObstaculos()
-        manejadorObstaculos.agregarObstaculos()
-        })
+object scheduleAutos {
+    method iniciar(contador){
+        game.schedule(contador, {manejadorAutos.agregarAutosFilaSuperior()
+        manejadorAutos.agregarAutosFilaSuperior()
+        manejadorAutos.agregarAutosFilaSuperior()
+        manejadorAutos.agregarAutosFilaSuperior()})
+    }
+}
 
-        game.schedule(3300, {manejadorObstaculos.agregarObstaculos()
-        manejadorObstaculos.agregarObstaculos()
-        })
+object scheduleObstaculo {
+    method iniciar(contador){
+        game.schedule(contador, {manejadorObstaculos.agregarObstaculos()
+        manejadorObstaculos.agregarObstaculos()})
     }
 }
