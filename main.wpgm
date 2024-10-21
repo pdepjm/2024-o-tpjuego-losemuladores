@@ -11,6 +11,6 @@ program juego {
   juegoDeAutos.configurarTeclado()
   game.start()
 
-  //keyboard.r().onPressDo({reiniciarJuego.iniciar()})
+  keyboard.r().onPressDo({reiniciarJuego.iniciar()})
 
 }

@@ -7,10 +7,8 @@ object cargarVisuales {
     const tiemposObstaculo = [1500, 3300]
 
     method iniciar() {
-        game.addVisualCharacter(auto)
         game.addVisual(contador)
-        game.addVisual(contadorNafta)
-        game.addVisual(gasolina)        
+        game.addVisual(contadorNafta)   
 
         tiemposAuto.forEach({tiempo => scheduleAutos.iniciar(tiempo)})
         tiemposObstaculo.forEach({tiempo => scheduleObstaculo.iniciar(tiempo)})

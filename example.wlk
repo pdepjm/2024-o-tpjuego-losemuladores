@@ -9,6 +9,8 @@ object juegoDeAutos {
     game.height(12)
     game.cellSize(50)
     game.boardGround("freeway.png")
+    game.addVisualCharacter(auto)
+    game.onCollideDo(auto, {visual => visual.chocar()})
   }
 
   method configurarTeclado() {
@@ -20,7 +22,6 @@ object juegoDeAutos {
 
 object auto {
   var position = game.at(1, 2)
- 
   method image() = "porsche.png"
   method position() = position
 
@@ -55,14 +56,12 @@ object gasolina {
   }
 
   method restaurarUbicacion() {
-    game.removeVisual(self)
     position = game.at(0.randomUpTo(game.width() - 1), 9)
   }
 }
 
 class Obstaculo {
-  // Posición inicial aleatoria en la fila superior del tablero
-  var position = game.at(0.randomUpTo(game.width() - 1), 9)
+  var position = game.at(0.randomUpTo(game.width() - 1), 12)
   method image() = "cono.png"
   
   method position() = position
@@ -102,8 +101,21 @@ class AutoEnemigo {
   }
 
   method chocar() {
+    sonido.explosion()
     cartelFinal.iniciar()
-    //game.stop()
   }
 }
 
+object sonido {
+  const sonidoFondo = game.sound("fondo.mp3")
+  
+  method iniciarFondo() {
+    sonidoFondo.shouldLoop(true)
+    game.schedule(0, {sonidoFondo.play()})
+  }
+
+  method explosion() {
+    game.sound("explosion.wav").play()
+  }
+
+}
