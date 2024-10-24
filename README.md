@@ -29,3 +29,9 @@ El objtivo es alcanzar la mayor cantidad de puntos posibles antes de que perdamo
 - `<-`: Mover a izquierda
 - `->`: Mover a derecha
 
+
+# Diagrama 
+
+![Uploading image.png…]()
+
+
