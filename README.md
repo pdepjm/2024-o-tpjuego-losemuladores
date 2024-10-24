@@ -32,6 +32,6 @@ El objtivo es alcanzar la mayor cantidad de puntos posibles antes de que perdamo
 
 # Diagrama 
 
-![image](https://github.com/user-attachments/assets/e81cc028-8b8c-4474-b0a0-cab1193fe288)
+![Diagrama en blanco](https://github.com/user-attachments/assets/1959b7ce-7cb3-4fef-ad41-eeae4fbff43d)
 
 
