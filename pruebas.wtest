@@ -1,26 +1,56 @@
-/*import example.*
+import example.*
 import handlers.*
+import visuales.*
 
 describe "group of tests for auto" {
 
-  test "auto has nafta" {
-    assert.equals(100, contadorNafta.nafta)
-  }
-
-  test "auto pierde nafta " {
-    
-  }
-
-  test "auto choca " {
-
-  }
-
-  test "posicion inicial auto" {
-    auto.position() shouldBe game.at(1, 2)
+  test "Auto se mueve correctamente" {
     auto.moverDerecha()
-    auto.position() shouldBe game.at(2, 2)
+    assert.equals(game.at(2, 2), auto.position())
+
+    auto.moverIzquierda()
+    assert.equals(game.at(1, 2), auto.position())
   }
+
+
+  test "auto pierde nafta al chocar con cono" {  
+    const naftaInicial = contadorNafta.nafta
+    const obstaculo = new Obstaculo()
   
+    obstaculo.chocar()  
+  
+    assert.equals(naftaInicial - 10, contadorNafta.nafta)    
+  }
 }
 
-*/
+describe "Tests de gasolina" {
+  test "Colisión con gasolina aumenta nafta" {
+    const naftaInicial = 50
+    gasolina.chocar()
+    assert.equals(naftaInicial + 10, contadorNafta.nafta)
+  }
+
+  test "Gasolina se mueve correctamente" {
+    const posicionInicial = gasolina.position()
+    gasolina.moverseHaciaAbajo()
+
+    assert.equals(game.at(posicionInicial.x(), posicionInicial.y() - 1), gasolina.position())
+  }
+}
+
+describe "Tests de manejadorAutos" {
+  test "Manejador Autos grega autos a la lista correctamente" {
+    const listaInicial = manejadorAutos.autos.size()
+    manejadorAutos.agregarAutosFilaSuperior() 
+    assert.equals(listaInicial + 1, manejadorAutos.autos.size())
+  }
+}
+
+describe "Tests de manejadorObstaculos" {
+  test "Manejador Obstaculos agrega obstaculos a la lista correctamente" {
+    const listaInicial = manejadorObstaculos.obstaculos.size()
+    manejadorObstaculos.agregarObstaculos() 
+    assert.equals(listaInicial + 1, manejadorObstaculos.obstaculos.size())
+  }
+}
+

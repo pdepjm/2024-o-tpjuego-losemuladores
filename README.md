@@ -13,7 +13,7 @@ UTN - Facultad Regional Buenos Aires - Materia Paradigmas de Programación
 
 ## Capturas 
 
-![pepita](assets/golondrina.png)
+![auto](assets/porsche.png)
 
 ## Reglas de Juego / Instrucciones
 

@@ -10,7 +10,7 @@ program juego {
   manejadorColisiones.iniciar()
   juegoDeAutos.configurarTeclado()
   game.start()
-
+  
   keyboard.r().onPressDo({reiniciarJuego.iniciar()})
 
 }
