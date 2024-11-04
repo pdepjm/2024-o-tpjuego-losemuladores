@@ -1,5 +1,6 @@
 import example.*
 import visuales.*
+import wollok.game.*
 
 object contador {
   var property puntos = 0
@@ -18,14 +19,21 @@ object contador {
 
 object contadorNafta {
   var nafta = 100
+  var enGameOver = false
 
   method agregarNafta(cantidad) {
   if (nafta > 0){
     nafta = 100.min(nafta + cantidad)
-    } else {
+    } else if (!enGameOver){
+      enGameOver = true
       cartelFinal.iniciar()
     }
 
+  }
+
+  method reiniciarNafta() {
+    nafta = 100
+    enGameOver = false
   }
 
   const property celeste = "279df5cc"
@@ -37,109 +45,99 @@ object contadorNafta {
   
 }
 
-object manejadorAutos  {
-   const autos = new List()
+class Manejador {
+  
+  const lista = new List()
 
+  method obtenerLista() = lista
+  
+  method movimiento() {
+    lista.forEach{objeto => objeto.moverseHaciaAbajo()}
+  }
+
+  method sacar(){
+    lista.forEach{objeto => game.removeVisual(objeto)}
+    lista.clear()
+  }
+
+}
+
+class ManejadorAutos inherits Manejador {
   method agregarAutosFilaSuperior() {
     const nuevoAuto = new AutoEnemigo ()
-    autos.add(nuevoAuto)
+    lista.add(nuevoAuto)
     game.addVisual(nuevoAuto)
   }
+}
 
-  method paraCadaAuto() {
-    autos.forEach{autoEnemigo => autoEnemigo.moverseHaciaAbajo()}
-  }
-
-  method sacarAutos(){
-    autos.forEach{autoEnemigo => game.removeVisual(autoEnemigo)}
-    autos.clear()
+class ManejadorConos inherits Manejador {
+  method agregarConosFilaSuperior() {
+    const nuevoCono = new Cono ()
+    lista.add(nuevoCono)
+    game.addVisual(nuevoCono)
   }
 }
 
-object manejadorObstaculos  {
-   const obstaculos = new List()
-
-  method agregarObstaculos() {
-    const nuevoObstaculo = new Obstaculo ()
-    obstaculos.add(nuevoObstaculo)
-    game.addVisual(nuevoObstaculo)
-  }
-
-  method paraCadaObstaculo() {
-    obstaculos.forEach{obstaculo => obstaculo.moverseHaciaAbajo()}
-  }
-  
-  method sacarObstaculos(){
-    obstaculos.forEach{obstaculo => game.removeVisual(obstaculo)}
-    obstaculos.clear()
-  }
-}
+const manejadorAutos = new ManejadorAutos()
+const manejadorConos = new ManejadorConos()
 
 object manejadorColisiones {
     method iniciar(){
-        game.onTick(300, "moverAutos", { manejadorAutos.paraCadaAuto() })
-        game.onTick(300, "moverGasolina", { gasolina.moverseHaciaAbajo() })
-        game.onTick(300, "moverObstaculos", { manejadorObstaculos.paraCadaObstaculo() })
+        game.onTick(300, "moverAutos", { manejadorAutos.movimiento() })
+        game.onTick(300, "moverObstaculos", { manejadorConos.movimiento() })
         game.onTick(100, "aumentarPuntos", { contador.aumentarPuntos() })
-        game.onTick(1000, "disminuirNafta", { contadorNafta.agregarNafta(-2) })
+        game.onTick(500, "disminuirNafta", { contadorNafta.agregarNafta(-1) })
+        game.onTick(300, "moverGasolina", { gasolina.moverseHaciaAbajo() })
     }
-
 }
 
 object cartelFinal{
-    var property position = game.origin()
-    method image() = "gameover.png"
-    method iniciar(){
-      game.removeVisual(gasolina)
-        game.removeTickEvent("moverAutos")
-        game.removeTickEvent("moverGasolina")
-        game.removeTickEvent("moverObstaculos")
-        game.removeTickEvent("aumentarPuntos")
-        game.removeTickEvent("disminuirNafta")
-        manejadorAutos.sacarAutos()
-        manejadorObstaculos.sacarObstaculos()
-        game.removeVisual(contadorNafta)
-        game.removeVisual(contador)
-        game.addVisual(self)
-        game.addVisual(textoGameOver)
-        game.addVisual(textoPuntaje)
-        game.addVisual(textoReinicio)
-    }
+  var property position = game.at(0,0)
+  method image() = "explosion.png"
+  method iniciar(){
+    game.removeTickEvent("moverAutos")
+    game.removeTickEvent("moverObstaculos")
+    game.removeTickEvent("aumentarPuntos")
+    game.removeTickEvent("disminuirNafta")
+    game.removeTickEvent("moverGasolina")
+    game.removeVisual(gasolina)
+    game.removeVisual(contadorNafta)
+    game.removeVisual(contador)
+    manejadorAutos.sacar()
+    manejadorConos.sacar()
+    game.addVisual(self)
+    const textoPuntaje = new Texto ( texto = "PUNTAJE: " + contador.puntos(), position = game.at(4,6) )
+    game.addVisual(textoGameOver)
+    game.addVisual(textoPuntaje)
+    game.addVisual(textoReinicio)
+    keyboard.r().onPressDo({game.removeVisual(textoPuntaje)
+    game.removeVisual(textoGameOver)
+    game.removeVisual(textoReinicio)
+    game.removeVisual(self)
+    reiniciarJuego.iniciar()})
+  }
 }
 
-object textoGameOver {
+class Texto {
+  const texto
+  var property position
   const property negro = "000000e8"
+
   method textColor() = negro
-  method text () = "GAME OVER" 
-  method position() = game.at(4, 7)
+  method text() = texto
 }
 
-object textoPuntaje {
-  const property negro = "000000e8"
-  method textColor() = negro
-  method text () = "PUNTAJE: " + contador.puntos() 
-  method position() = game.at(4, 6)
-}
+const textoGameOver = new Texto ( texto = "GAME OVER", position = game.at(4,7) )
+const textoReinicio = new Texto( texto = "PRESIONE R PARA REINICIAR" , position = game.at(4,5) )
 
-object textoReinicio {
-  const property negro = "000000e8"
-  method textColor() = negro
-  method text () = "PRESIONE R PARA REINICIAR"
-  method position() = game.at(4, 5)
-}
 
 object reiniciarJuego{
   method iniciar() {
-    game.removeVisual(cartelFinal)
-    game.removeVisual(textoGameOver)
-    game.removeVisual(textoPuntaje)
-    game.removeVisual(textoReinicio)
-    contadorNafta.agregarNafta(100)
+    contadorNafta.reiniciarNafta()
+    manejadorAutos.sacar()
+    manejadorConos.sacar()
     contador.puntos(0)
-    gasolina.restaurarUbicacion()
-    game.schedule(300, {
-      cargarVisuales.iniciar()
-      manejadorColisiones.iniciar()
-    })
+    cargarVisuales.iniciar()
+    manejadorColisiones.iniciar()
   }
 }

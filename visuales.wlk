@@ -3,16 +3,18 @@ import wollok.game.*
 import handlers.*
 
 object cargarVisuales {
-    const tiemposAuto = [300, 1200, 2100, 3000]
-    const tiemposObstaculo = [1500, 3300]
-
     method iniciar() {
+        game.removeVisual(contadorNafta)
+        game.removeVisual(contador)
         game.addVisual(contador)
-        game.addVisual(contadorNafta)   
+        game.addVisual(contadorNafta)
+        manejadorAutos.sacar()
+        manejadorConos.sacar()
 
-        tiemposAuto.forEach({tiempo => scheduleAutos.iniciar(tiempo)})
-        tiemposObstaculo.forEach({tiempo => scheduleObstaculo.iniciar(tiempo)})
-        game.schedule(3300, {game.addVisual(gasolina)})
+        [300, 1200, 2100, 3000].forEach({tiempo => scheduleAutos.iniciar(tiempo)})
+        [1500, 3300].forEach({tiempo => scheduleObstaculo.iniciar(tiempo)})
+        game.schedule(3600, {gasolina.restaurarUbicacion()
+        game.addVisual(gasolina)})
     }
 }
 
@@ -27,7 +29,7 @@ object scheduleAutos {
 
 object scheduleObstaculo {
     method iniciar(contador){
-        game.schedule(contador, {manejadorObstaculos.agregarObstaculos()
-        manejadorObstaculos.agregarObstaculos()})
+        game.schedule(contador, {manejadorConos.agregarConosFilaSuperior()
+        manejadorConos.agregarConosFilaSuperior()})
     }
 }

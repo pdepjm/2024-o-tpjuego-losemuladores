@@ -11,6 +11,7 @@ object juegoDeAutos {
     game.boardGround("freeway.png")
     game.addVisualCharacter(auto)
     game.onCollideDo(auto, {visual => visual.chocar()})
+    //sonido.iniciarFondo()
   }
 
   method configurarTeclado() {
@@ -18,7 +19,6 @@ object juegoDeAutos {
     keyboard.right().onPressDo({ auto.moverDerecha() })
   }
 }
-
 
 object auto {
   var position = game.at(1, 2)
@@ -39,10 +39,9 @@ object auto {
 
 }
 
-object gasolina {
-  var property position = game.at(0.randomUpTo(game.width() - 1), 9)
-  method image() = "gasolina.png"
-  
+class Objeto {
+  var property position = game.at(0.randomUpTo(game.width() - 1), 12)
+
   method moverseHaciaAbajo() {
     if (position.y() > 0) {
       position = game.at(position.x(), position.y() - 1)
@@ -51,71 +50,39 @@ object gasolina {
     }
   }
 
-  method chocar() {
+  method chocar()
+}
+
+class Gasolina inherits Objeto {
+  
+  method image() = "gasolina.png"
+
+  override method chocar() {
     contadorNafta.agregarNafta(10)
   }
 
   method restaurarUbicacion() {
-    position = game.at(0.randomUpTo(game.width() - 1), 9)
+    position = game.at(0.randomUpTo(game.width() - 1), 12)
   }
 }
 
-class Obstaculo {
-  var position = game.at(0.randomUpTo(game.width() - 1), 12)
+const gasolina = new Gasolina()
+
+class Cono inherits Objeto {
   method image() = "cono.png"
-  
-  method position() = position
-  method position(newPosition) {
-    position = newPosition
-  }
 
-  method moverseHaciaAbajo() {
-    if (position.y() > 0) {
-      position = position.down(1)
-    } else {
-      position = game.at(0.randomUpTo(game.width() - 1), game.height() - 1)
-    }
-  }
-
-  method chocar() {
+  override method chocar() {
     contadorNafta.agregarNafta(-10)
   }
 
 }
 
-class AutoEnemigo {
-  var position = game.at(0.randomUpTo(game.width() - 1), game.height() - 1)
+class AutoEnemigo inherits Objeto {
+
   method image() = "policecar.png"
   
-  method position() = position
-  method position(newPosition) {
-    position = newPosition
-  }
-
-  method moverseHaciaAbajo() {
-    if (position.y() > 0) {
-      position = position.down(1)
-    } else {
-      position = game.at(0.randomUpTo(game.width() - 1), game.height() - 1)
-    }
-  }
-
-  method chocar() {
-    sonido.explosion()
+  override method chocar() {
+    //sonido.explosion()
     cartelFinal.iniciar()
   }
-}
-
-object sonido {
-  const sonidoFondo = game.sound("fondo.mp3")
-  
-  method iniciarFondo() {
-    sonidoFondo.shouldLoop(true)
-    game.schedule(0, {sonidoFondo.play()})
-  }
-
-  method explosion() {
-    game.sound("explosion.wav").play()
-  }
-
 }
