@@ -13,7 +13,7 @@ UTN - Facultad Regional Buenos Aires - Materia Paradigmas de Programación
 
 ## Capturas 
 
-![pepita](assets/golondrina.png)
+![auto](assets/porsche.png)
 
 ## Reglas de Juego / Instrucciones
 
@@ -28,4 +28,10 @@ El objtivo es alcanzar la mayor cantidad de puntos posibles antes de que perdamo
 
 - `<-`: Mover a izquierda
 - `->`: Mover a derecha
+
+
+# Diagrama 
+
+![Diagrama en blanco](https://github.com/user-attachments/assets/1959b7ce-7cb3-4fef-ad41-eeae4fbff43d)
+
 
