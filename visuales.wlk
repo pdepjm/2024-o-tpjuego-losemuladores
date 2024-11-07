@@ -12,9 +12,10 @@ object cargarVisuales {
         [300, 1200, 2100, 3000].forEach({tiempo => scheduleAutos.iniciar(tiempo)})
         [1500, 3300].forEach({tiempo => scheduleObstaculo.iniciar(tiempo)})
         game.schedule(3600, {gasolina.restaurarUbicacion()
-        game.addVisual(gasolina)})
+        game.addVisual(gasolina)} )  
     }
 }
+
 
 object scheduleAutos {
     method iniciar(contador){
@@ -41,40 +42,36 @@ object cartelFinal {
     estadoJuego.pausarJuego() 
     self.limpiarJuego()              
 
-    // Capturar el puntaje y mostrarlo inmediatamente
     const puntajeActual = contador.puntos()
     textoPuntaje = new Texto(texto = "PUNTAJE: " + puntajeActual, position = game.at(4, 6))
     
-    // Agregar visuales para el estado de fin del juego
-    game.addVisual(self)
-    game.addVisual(textoGameOver)
+    //game.addVisual(self)
+    //game.addVisual(textoGameOver)
     game.addVisual(textoPuntaje)
     game.addVisual(textoReinicio)
     
     keyboard.r().onPressDo ({
       if (estadoJuego.estaPausado()) {
-        self.limpiarJuego()             // Limpiar visuales y eventos de nuevo antes de reiniciar
-        reiniciarJuego.iniciar()   // Reiniciar el juego
+        self.limpiarJuego()            
+        reiniciarJuego.iniciar()   
       }
     })
   }
 
-  // Método para limpiar visuales y eventos
   method limpiarJuego() {
     game.removeVisual(self)
     game.removeVisual(gasolina)
     game.removeVisual(contadorNafta)
     game.removeVisual(contador)
     game.removeVisual(textoGameOver)
-    if (textoPuntaje != null) {   // Remover textoPuntaje si existe
+    if (textoPuntaje != null) {   
       game.removeVisual(textoPuntaje)
-      textoPuntaje = null          // Restablecer textoPuntaje a null
+      textoPuntaje = null          
     }
     game.removeVisual(textoReinicio)
     manejadorAutos.sacar()
     manejadorConos.sacar()
 
-    // Remover cualquier evento de tick o programado
     game.removeTickEvent("moverAutos")
     game.removeTickEvent("moverObstaculos")
     game.removeTickEvent("aumentarPuntos")

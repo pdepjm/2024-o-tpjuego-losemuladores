@@ -52,6 +52,9 @@ class Objeto {
   }
 
   method chocar()
+  
+  //method reposicionar(nuevoAuto) { 
+   // position = game.at(0.randomUpTo(game.width() - 1), 12)}
 }
 
 class Gasolina inherits Objeto {

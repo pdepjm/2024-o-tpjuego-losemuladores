@@ -19,23 +19,23 @@ object contador {
 }
 
 object contadorNafta {
-  var nafta = 100
-  var enGameOver = false
-
+  var property  nafta = 100 
+  
   method agregarNafta(cantidad) {
-  if (nafta > 0){
-    nafta = 100.min(nafta + cantidad)
-    } else if (!enGameOver){
-      enGameOver = true
+  nafta = 100.min(nafta + cantidad)
+  if (nafta <= 0){
       cartelFinal.iniciar()
       sonidoColision.iniciarColision()
     }
+  }
 
+  method agregarNaftaFilaSuperior() {
+    gasolina.restaurarUbicacion()
+    game.addVisual(gasolina)
   }
 
   method reiniciarNafta() {
     nafta = 100
-    enGameOver = false
   }
 
   const property celeste = "279df5cc"
@@ -62,6 +62,8 @@ class Manejador {
     lista.clear()
   }
 
+  //method posicionLibre(autonuevo) = lista.none { objeto => objeto.position().x() == autonuevo.position().x() }
+
 }
 
 class ManejadorAutos inherits Manejador {
@@ -69,6 +71,13 @@ class ManejadorAutos inherits Manejador {
     const nuevoAuto = new AutoEnemigo ()
     lista.add(nuevoAuto)
     game.addVisual(nuevoAuto)
+
+//  if (!posicionLibre(nuevoAuto)) {
+  //  reposicionar(nuevoAuto)
+   // lista.add(nuevoAuto)
+    //game.addVisual(nuevoAuto)
+  //}
+    
   }
 }
 
@@ -76,6 +85,7 @@ class ManejadorConos inherits Manejador {
   method agregarConosFilaSuperior() {
     const nuevoCono = new Cono ()
     lista.add(nuevoCono)
+    //verificarposicion()
     game.addVisual(nuevoCono)
   }
 }

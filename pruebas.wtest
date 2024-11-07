@@ -15,20 +15,21 @@ describe "group of tests for auto" {
   }
 
   test "auto pierde nafta al chocar con cono" {  
-    const naftaInicial = contadorNafta.nafta
+    const naftaInicial = contadorNafta.nafta()
     const cono = new Cono()
   
     cono.chocar()  
   
-    assert.equals(naftaInicial - 10, contadorNafta.nafta)    
+    assert.equals(naftaInicial - 10, contadorNafta.nafta())    
   }
 }
 
 describe "Tests de gasolina" {
   test "Colisión con gasolina aumenta nafta" {
     const naftaInicial = 50
+    contadorNafta.nafta(naftaInicial) 
     gasolina.chocar()
-    assert.equals(naftaInicial + 10, contadorNafta.nafta)
+    assert.equals(naftaInicial + 10, contadorNafta.nafta())
   }
 
   test "Gasolina se mueve correctamente" {
