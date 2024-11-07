@@ -1,22 +1,37 @@
-#  (reemplazar nombre de juego acá) 
+# HighWay Mania
 
 UTN - Facultad Regional Buenos Aires - Materia Paradigmas de Programación
 
 ## Equipo de desarrollo: 
 
-- completar...
-- completar...
+- Barrios Ramiro
+- Portnoi Luka
+- Quintana Brian
+- Rios Tomas
+- Santana Matias
  
 
 ## Capturas 
 
-![pepita](assets/golondrina.png)
+![auto](assets/porsche.png)
 
 ## Reglas de Juego / Instrucciones
 
-(completar...)
+Nuestro personaje es un porsche 911 carrera (1998) que debe esquivar los autos de la policia. 
+Tambien contaremos con gasolina limitada y obstaculos que nos perjudicaran en nuestro escape.
+Cuando chocamos con gasolina, nuestro tanque aumentara en 10 unidades con un tope de 100,
+cuando choquemos con un obstaculo nuestro tanque perdera 10 unidades de gasolina y
+cuando chocamos con un auto de policia, perderemos.
+El objtivo es alcanzar la mayor cantidad de puntos posibles antes de que perdamos.
 
 ## Controles:
 
-- `W` para...
+- `<-`: Mover a izquierda
+- `->`: Mover a derecha
+
+
+# Diagrama 
+
+![Diagrama en blanco](https://github.com/user-attachments/assets/1959b7ce-7cb3-4fef-ad41-eeae4fbff43d)
+
 

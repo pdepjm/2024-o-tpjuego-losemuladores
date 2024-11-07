@@ -1,9 +1,57 @@
-import pepita.*
+import example.*
+import handlers.*
+import visuales.*
+import wollok.game.*
 
-describe "group of tests for pepita" {
 
-  test "pepita has initial energy" {
-    assert.equals(100, pepita.energy())
+describe "group of tests for auto" {
+
+  test "Auto se mueve correctamente" {
+    auto.moverDerecha()
+    assert.equals(game.at(2, 2), auto.position())
+
+    auto.moverIzquierda()
+    assert.equals(game.at(1, 2), auto.position())
   }
 
+  test "auto pierde nafta al chocar con cono" {  
+    const naftaInicial = contadorNafta.nafta()
+    const cono = new Cono()
+  
+    cono.chocar()  
+  
+    assert.equals(naftaInicial - 10, contadorNafta.nafta())    
+  }
+}
+
+describe "Tests de gasolina" {
+  test "Colisión con gasolina aumenta nafta" {
+    const naftaInicial = 50
+    contadorNafta.nafta(naftaInicial) 
+    gasolina.chocar()
+    assert.equals(naftaInicial + 10, contadorNafta.nafta())
+  }
+
+  test "Gasolina se mueve correctamente" {
+    const posicionInicial = gasolina.position()
+    gasolina.moverseHaciaAbajo()
+
+    assert.equals(game.at(posicionInicial.x(), posicionInicial.y() - 1), gasolina.position())
+  }
+}
+
+describe "Tests de manejadorAutos" {
+  test "Manejador Autos agrega autos a la lista correctamente" {
+    const tamListaInicial = manejadorAutos.obtenerLista().size()
+    manejadorAutos.agregarAutosFilaSuperior() 
+    assert.equals(tamListaInicial + 1, manejadorAutos.obtenerLista().size())
+  }
+}
+
+describe "Tests de manejadorObstaculos" {
+  test "Manejador Obstaculos agrega obstaculos a la lista correctamente" {
+    const tamListaInicial = manejadorConos.obtenerLista().size()
+    manejadorConos.agregarConosFilaSuperior() 
+    assert.equals(tamListaInicial + 1, manejadorConos.obtenerLista().size())
+  }
 }
