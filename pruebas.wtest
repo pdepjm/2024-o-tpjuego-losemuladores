@@ -1,8 +1,8 @@
 import example.*
-import example.*
 import handlers.*
 import visuales.*
-import visuales.*
+import wollok.game.*
+
 
 describe "group of tests for auto" {
 
@@ -12,15 +12,7 @@ describe "group of tests for auto" {
 
     auto.moverIzquierda()
     assert.equals(game.at(1, 2), auto.position())
-  test "Auto se mueve correctamente" {
-    auto.moverDerecha()
-    assert.equals(game.at(2, 2), auto.position())
-
-    auto.moverIzquierda()
-    assert.equals(game.at(1, 2), auto.position())
   }
-
-
 
   test "auto pierde nafta al chocar con cono" {  
     const naftaInicial = contadorNafta.nafta

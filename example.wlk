@@ -1,3 +1,4 @@
+import audio.*
 import wollok.game.*
 import handlers.*
 import visuales.*
@@ -21,19 +22,19 @@ object juegoDeAutos {
 }
 
 object auto {
-  var position = game.at(1, 2)
+  var posicionActual = game.at(1, 2)
   method image() = "porsche.png"
-  method position() = position
+  method position() = posicionActual
 
   method moverIzquierda() {
-    if (position.x() > 0) {
-      position = position.left(1)
+    if (posicionActual.x() > 0) {
+      posicionActual = posicionActual.left(1)
     }
   }
 
   method moverDerecha() {
-    if (position.x() < game.width() - 1) {
-      position = position.right(1)
+    if (posicionActual.x() < game.width() - 1) {
+      posicionActual = posicionActual.right(1)
     }
   }
 
@@ -82,7 +83,7 @@ class AutoEnemigo inherits Objeto {
   method image() = "policecar.png"
   
   override method chocar() {
-    //sonido.explosion()
+    sonidoColision.iniciarColision()
     cartelFinal.iniciar()
   }
 }
