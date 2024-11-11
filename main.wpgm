@@ -13,5 +13,10 @@ program juego {
   juegoDeAutos.configurarTeclado()
   game.start()
   musicaDeFondo.iniciarFondo()
-
+  
+  //cartelInicial.iniciar()
+  /*keyboard.enter().onPressDo({
+    game.start() 
+    game.removeVisual(cartelInicial) 
+    musicaDeFondo.iniciarFondo()})*/
 }

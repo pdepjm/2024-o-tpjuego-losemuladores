@@ -33,6 +33,17 @@ object scheduleObstaculo {
     }
 }
 
+/*
+object cartelInicial {
+  var property position = game.at(0, 0) 
+  
+  method image() = "cartelinicial.png"
+
+  method iniciar() {
+    game.addVisual(self)    
+  }
+}*/
+
 object cartelFinal {
   var property position = game.at(0, 0)
   var textoPuntaje = null      
@@ -45,8 +56,8 @@ object cartelFinal {
     const puntajeActual = contador.puntos()
     textoPuntaje = new Texto(texto = "PUNTAJE: " + puntajeActual, position = game.at(4, 6))
     
-    //game.addVisual(self)
-    //game.addVisual(textoGameOver)
+    game.addVisual(self)
+    game.addVisual(textoGameOver)
     game.addVisual(textoPuntaje)
     game.addVisual(textoReinicio)
     

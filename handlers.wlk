@@ -61,37 +61,28 @@ class Manejador {
     lista.forEach{objeto => game.removeVisual(objeto)}
     lista.clear()
   }
-
-  //method posicionLibre(autonuevo) = lista.none { objeto => objeto.position().x() == autonuevo.position().x() }
-
 }
 
-class ManejadorAutos inherits Manejador {
+object manejadorAutos inherits Manejador {
   method agregarAutosFilaSuperior() {
     const nuevoAuto = new AutoEnemigo ()
-    lista.add(nuevoAuto)
-    game.addVisual(nuevoAuto)
-
-//  if (!posicionLibre(nuevoAuto)) {
-  //  reposicionar(nuevoAuto)
-   // lista.add(nuevoAuto)
-    //game.addVisual(nuevoAuto)
-  //}
     
+    lista.add(nuevoAuto)
+    //nuevoAuto.verificarPosicion()
+    game.addVisual(nuevoAuto)    
   }
 }
 
-class ManejadorConos inherits Manejador {
+object manejadorConos inherits Manejador {
   method agregarConosFilaSuperior() {
     const nuevoCono = new Cono ()
+
     lista.add(nuevoCono)
-    //verificarposicion()
+    //nuevoCono.verificarPosicion()
     game.addVisual(nuevoCono)
   }
 }
 
-const manejadorAutos = new ManejadorAutos()
-const manejadorConos = new ManejadorConos()
 
 object manejadorColisiones {
     method iniciar(){

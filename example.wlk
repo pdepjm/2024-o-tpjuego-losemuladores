@@ -12,7 +12,6 @@ object juegoDeAutos {
     game.boardGround("freeway.png")
     game.addVisualCharacter(auto)
     game.onCollideDo(auto, {visual => visual.chocar()})
-    //sonido.iniciarFondo()
   }
 
   method configurarTeclado() {
@@ -43,6 +42,14 @@ object auto {
 class Objeto {
   var property position = game.at(0.randomUpTo(game.width() - 1), 12)
 
+  method verificarPosicion() {
+    if (!game.getObjectsIn(position).isEmpty()) {
+      self.reposicionar()
+    } 
+  }
+
+  method image()
+
   method moverseHaciaAbajo() {
     if (position.y() > 0) {
       position = game.at(position.x(), position.y() - 1)
@@ -52,17 +59,21 @@ class Objeto {
   }
 
   method chocar()
-  
-  //method reposicionar(nuevoAuto) { 
-   // position = game.at(0.randomUpTo(game.width() - 1), 12)}
+
+  method reposicionar() {
+    position = game.at(0.randomUpTo(game.width() - 1), 12)
+    self.verificarPosicion()
+  }
 }
 
 class Gasolina inherits Objeto {
   
-  method image() = "gasolina.png"
+  override method image() = "gasolina.png"
 
   override method chocar() {
     contadorNafta.agregarNafta(10)
+    game.removeVisual(self)
+    game.schedule(1200, {game.addVisual(self)})
   }
 
   method restaurarUbicacion() {
@@ -73,7 +84,7 @@ class Gasolina inherits Objeto {
 const gasolina = new Gasolina()
 
 class Cono inherits Objeto {
-  method image() = "cono.png"
+  override method image() = "cono.png"
 
   override method chocar() {
     contadorNafta.agregarNafta(-10)
@@ -83,7 +94,7 @@ class Cono inherits Objeto {
 
 class AutoEnemigo inherits Objeto {
 
-  method image() = "policecar.png"
+  override method image() = "policecar.png"
   
   override method chocar() {
     sonidoColision.iniciarColision()
