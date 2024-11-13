@@ -4,14 +4,15 @@ import visuales.*
 import example.*
 
 object musicaDeFondo {
+  const musica = game.sound("fondo.mp3")
   method iniciarFondo() {
-    const musica = game.sound("fondo.mp3")
-    game.schedule(0, {musica.play() musica.pause() musica.resume()})
+    game.schedule(2, {musica.play() musica.pause() musica.resume()})
   }
 }
 
-object sonidoColision {
+/*object sonidoColision {
+  const sonido = game.sound("explosion.mp3")
     method iniciarColision() {
-        //const sonido = game.sound("explosion.mp3")
+      sonido.play()
     }
-}
+}*/

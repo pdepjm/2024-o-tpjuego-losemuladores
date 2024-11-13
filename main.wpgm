@@ -7,16 +7,19 @@ import audio.*
 
 
 program juego {
-  juegoDeAutos.iniciar()
+  
+  /*juegoDeAutos.iniciar()
   cargarVisuales.iniciar()
   manejadorColisiones.iniciar()
   juegoDeAutos.configurarTeclado()
   game.start()
   musicaDeFondo.iniciarFondo()
-  
-  //cartelInicial.iniciar()
-  /*keyboard.enter().onPressDo({
-    game.start() 
-    game.removeVisual(cartelInicial) 
-    musicaDeFondo.iniciarFondo()})*/
+
+  keyboard.enter().onPressDo({
+  game.start() 
+  game.removeVisual(cartelInicial) 
+  musicaDeFondo.iniciarFondo()})*/
+  game.start()
+  juegoDeAutos.iniciar()
+
 }

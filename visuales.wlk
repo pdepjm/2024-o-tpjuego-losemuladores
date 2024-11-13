@@ -33,16 +33,12 @@ object scheduleObstaculo {
     }
 }
 
-/*
+
 object cartelInicial {
   var property position = game.at(0, 0) 
   
-  method image() = "cartelinicial.png"
-
-  method iniciar() {
-    game.addVisual(self)    
-  }
-}*/
+  method image() = "inicioCartel.png"
+}
 
 object cartelFinal {
   var property position = game.at(0, 0)
@@ -51,7 +47,7 @@ object cartelFinal {
   
   method iniciar() {
     estadoJuego.pausarJuego() 
-    self.limpiarJuego()              
+    self.limpiarJuego()
 
     const puntajeActual = contador.puntos()
     textoPuntaje = new Texto(texto = "PUNTAJE: " + puntajeActual, position = game.at(4, 6))
@@ -80,6 +76,7 @@ object cartelFinal {
       textoPuntaje = null          
     }
     game.removeVisual(textoReinicio)
+
     manejadorAutos.sacar()
     manejadorConos.sacar()
 
@@ -90,8 +87,6 @@ object cartelFinal {
     game.removeTickEvent("moverGasolina")
   }
 }
-
-
 
 class Texto {
   const texto

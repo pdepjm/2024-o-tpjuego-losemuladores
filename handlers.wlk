@@ -22,10 +22,9 @@ object contadorNafta {
   var property  nafta = 100 
   
   method agregarNafta(cantidad) {
-  nafta = 100.min(nafta + cantidad)
-  if (nafta <= 0){
+    nafta = 100.min(nafta + cantidad)
+    if (nafta <= 0){
       cartelFinal.iniciar()
-      sonidoColision.iniciarColision()
     }
   }
 
@@ -66,9 +65,8 @@ class Manejador {
 object manejadorAutos inherits Manejador {
   method agregarAutosFilaSuperior() {
     const nuevoAuto = new AutoEnemigo ()
-    
+    nuevoAuto.verificarPosicion()
     lista.add(nuevoAuto)
-    //nuevoAuto.verificarPosicion()
     game.addVisual(nuevoAuto)    
   }
 }
@@ -76,13 +74,11 @@ object manejadorAutos inherits Manejador {
 object manejadorConos inherits Manejador {
   method agregarConosFilaSuperior() {
     const nuevoCono = new Cono ()
-
+    nuevoCono.verificarPosicion()
     lista.add(nuevoCono)
-    //nuevoCono.verificarPosicion()
     game.addVisual(nuevoCono)
   }
 }
-
 
 object manejadorColisiones {
     method iniciar(){

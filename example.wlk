@@ -12,6 +12,7 @@ object juegoDeAutos {
     game.boardGround("freeway.png")
     game.addVisualCharacter(auto)
     game.onCollideDo(auto, {visual => visual.chocar()})
+    game.addVisual(cartelInicial)
   }
 
   method configurarTeclado() {
@@ -40,13 +41,7 @@ object auto {
 }
 
 class Objeto {
-  var property position = game.at(0.randomUpTo(game.width() - 1), 12)
-
-  method verificarPosicion() {
-    if (!game.getObjectsIn(position).isEmpty()) {
-      self.reposicionar()
-    } 
-  }
+  var property position = game.at(0.randomUpTo(game.width() - 1), game.height())
 
   method image()
 
@@ -54,16 +49,28 @@ class Objeto {
     if (position.y() > 0) {
       position = game.at(position.x(), position.y() - 1)
     } else {
-      position = game.at(0.randomUpTo(game.width() - 1), game.height() - 1)
+      position = game.at(0.randomUpTo(game.width() - 1), game.height())
     }
   }
 
   method chocar()
 
+  method verificarPosicion() {
+    if (!game.getObjectsIn(self.position()).isEmpty()) {
+      self.reposicionar()
+    } 
+  }
+
   method reposicionar() {
-    position = game.at(0.randomUpTo(game.width() - 1), 12)
+    position = game.at(0.randomUpTo(game.width() - 1), game.height())
     self.verificarPosicion()
   }
+  
+  method restaurarUbicacion() {
+    position = game.at(0.randomUpTo(game.width() - 1), game.height())
+    self.verificarPosicion()
+  }
+  
 }
 
 class Gasolina inherits Objeto {
@@ -75,10 +82,6 @@ class Gasolina inherits Objeto {
     game.removeVisual(self)
     game.schedule(1200, {game.addVisual(self)})
   }
-
-  method restaurarUbicacion() {
-    position = game.at(0.randomUpTo(game.width() - 1), 12)
-  }
 }
 
 const gasolina = new Gasolina()
@@ -88,8 +91,9 @@ class Cono inherits Objeto {
 
   override method chocar() {
     contadorNafta.agregarNafta(-10)
+    game.removeVisual(self)
+    game.schedule(1200, {game.addVisual(self)})
   }
-
 }
 
 class AutoEnemigo inherits Objeto {
@@ -97,7 +101,6 @@ class AutoEnemigo inherits Objeto {
   override method image() = "policecar.png"
   
   override method chocar() {
-    sonidoColision.iniciarColision()
     cartelFinal.iniciar()
   }
 }
