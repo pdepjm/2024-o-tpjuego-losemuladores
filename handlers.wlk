@@ -92,6 +92,7 @@ object manejadorColisiones {
 
 object reiniciarJuego{
   method iniciar() {
+    gasolina.image("gasolina.png")
     contadorNafta.reiniciarNafta()
     manejadorAutos.sacar()
     manejadorConos.sacar()

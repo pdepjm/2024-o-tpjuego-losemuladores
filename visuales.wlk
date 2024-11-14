@@ -56,6 +56,8 @@ object cartelFinal {
     game.addVisual(textoGameOver)
     game.addVisual(textoPuntaje)
     game.addVisual(textoReinicio)
+
+    gasolina.image("blank.png")
     
     keyboard.r().onPressDo ({
       if (estadoJuego.estaPausado()) {

@@ -10,9 +10,7 @@ object juegoDeAutos {
     game.height(12)
     game.cellSize(50)
     game.boardGround("freeway.png")
-    game.addVisualCharacter(auto)
     game.onCollideDo(auto, {visual => visual.chocar()})
-    game.addVisual(cartelInicial)
   }
 
   method configurarTeclado() {
@@ -42,8 +40,6 @@ object auto {
 
 class Objeto {
   var property position = game.at(0.randomUpTo(game.width() - 1), game.height())
-
-  method image()
 
   method moverseHaciaAbajo() {
     if (position.y() > 0) {
@@ -75,7 +71,7 @@ class Objeto {
 
 class Gasolina inherits Objeto {
   
-  override method image() = "gasolina.png"
+  var property image = "gasolina.png" 
 
   override method chocar() {
     contadorNafta.agregarNafta(10)
@@ -87,7 +83,7 @@ class Gasolina inherits Objeto {
 const gasolina = new Gasolina()
 
 class Cono inherits Objeto {
-  override method image() = "cono.png"
+  var property image = "cono.png"
 
   override method chocar() {
     contadorNafta.agregarNafta(-10)
@@ -98,7 +94,7 @@ class Cono inherits Objeto {
 
 class AutoEnemigo inherits Objeto {
 
-  override method image() = "policecar.png"
+  var property image = "policecar.png"
   
   override method chocar() {
     cartelFinal.iniciar()
