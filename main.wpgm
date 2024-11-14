@@ -1,16 +1,25 @@
 import wollok.game.*
+import example.*
+import handlers.*
+import visuales.*
+import audio.*
 
-import pepita.*
 
-program PepitaGame {
-	game.title("Pepita")
-	game.height(10)
-	game.width(10)
-	game.cellSize(100)
 
-	game.addVisual(pepita)
+program juego {
+  game.addVisual(cartelInicial)
+  juegoDeAutos.iniciar()
+  game.start()
+  juegoDeAutos.configurarTeclado()
+  musicaDeFondo.iniciarFondo()
 
-	keyboard.w().onPressDo({ pepita.fly(1) })
+  keyboard.enter().onPressDo({    
+    game.removeVisual(cartelInicial) 
+    game.addVisualCharacter(auto)
+    cargarVisuales.iniciar()
+    manejadorColisiones.iniciar()
+  
+  })
+  
 
-	game.start()
 }
